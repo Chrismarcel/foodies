@@ -325,6 +325,7 @@ nav h1 a {
   }
   #restaurants-list li {
     flex-basis: 320px;
+    margin: 0 0 15px;
   }
   #restaurants-list {
     display: flex;
