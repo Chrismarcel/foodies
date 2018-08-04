@@ -175,7 +175,7 @@ nav h1 a {
   margin: 20px 0 10px;
   text-transform: uppercase;
   position: absolute;
-  top: 179px;
+  top: 180px;
   background: rgba(51, 51, 51, .8);
   padding: 15px 20px;
   width: 100%;
@@ -264,11 +264,10 @@ nav h1 a {
   padding: 160px 10px 0 10px;
 }
 #reviews-container h2 {
-  color: #f58500;
+  color: #333;
   font-size: 1.5rem;
-  font-weight: 300;
+  font-weight: 400;
   margin: 10px;
-  padding-bottom: 1pt;
 }
 #reviews-list {
   margin: 0;
