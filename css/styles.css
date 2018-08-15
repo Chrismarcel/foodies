@@ -316,6 +316,12 @@ nav h1 a {
   #restaurants-list li {
     width: 335px;
   }
+  .reviews--main {
+    padding: 0 2%;
+  }
+  #breadcrumb {
+    padding: 12px 20px;
+  }
 }
 @media (min-width: 500px) and (max-width: 699px) {
   #restaurants-list li {
@@ -323,6 +329,12 @@ nav h1 a {
   }
   #restaurants-list li h1 {
     top: 268px;
+  }
+  .reviews--main {
+    padding: 0 4%;
+  }
+  #breadcrumb {
+    padding: 12px 20px;
   }
 }
 @media (min-width: 700px) {
@@ -348,31 +360,10 @@ nav h1 a {
     flex-wrap: wrap;
     justify-content: space-between;
   }
-}
-@media (min-width: 700px) and (max-width: 999px) {
-  #restaurants-list {
-    flex-basis: 675px;
-  }
-  .filter-options select {
-    flex-basis: 328px;
-  }
-}
-@media (min-width: 1000px) {
-  #restaurants-list {
-    flex-basis: 999px;
-  }
-  .filter-options select {
-    flex-basis: 490px;
-  }
-  #restaurant-container {
-    padding-left: 60px;
-    width: calc(100vw - (540px + 120px));
-  }
   .inside #map-container {
     position: fixed;
     top: 112px;
     bottom: 0;
-    right: 60px;
     height: 70vh;
     width: 40%;
   }
@@ -383,12 +374,45 @@ nav h1 a {
   #restaurant-details--card {
     width: 92%;
   }
+  #breadcrumb {
+    padding: 12px 30px;
+  }
+}
+@media (min-width: 700px) and (max-width: 999px) {
+  #restaurants-list {
+    flex-basis: 675px;
+  }
+  .filter-options select {
+    flex-basis: 328px;
+  }
+  #restaurant-container {
+    padding-left: 30px;
+    width: 52%;
+  }
   .inside #reviews-container {
-    width: calc(100vw - (540px + 120px));
-    padding-left: 60px;
+    padding-left: 10px;
+    width: 52%;
   }
   #reviews-container h2 { 
-    margin: 0;
+    margin-left: 10px;
+  }
+  .inside #map-container { 
+    right: 30px;
+  }
+  #breadcrumb {
+    padding: 12px 30px;
+  }
+}
+@media (min-width: 1000px) {
+  #restaurants-list {
+    flex-basis: 999px;
+  }
+  .filter-options select {
+    flex-basis: 490px;
+  }
+  #restaurant-container, .inside #reviews-container {
+    padding-left: 60px;
+    width: 49%;
   }
   #reviews-list {
     padding: 10px 0;
@@ -396,5 +420,11 @@ nav h1 a {
   }
   #breadcrumb {
     padding: 12px 60px;
+  }
+  #reviews-container h2 { 
+    margin: 0;
+  }
+  .inside #map-container { 
+    right: 60px;
   }
 }
