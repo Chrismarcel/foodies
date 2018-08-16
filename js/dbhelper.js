@@ -185,5 +185,16 @@ class DBHelper {
     return marker;
   } */
 
+  /**
+   * Register Service Worker script
+   */
+  static registerServiceWorker() {
+    if (!navigator.serviceWorker) return;
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => {
+        console.log("Service Worker installed successfully");
+      });
+  }
+
 }
 
