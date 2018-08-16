@@ -90,8 +90,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.src = imageList.small;
-  image.alt = restaurant.name;
-  image.title = `${restaurant.name}`;
+  image.alt = `${restaurant.name} Restaurant`;
+  image.title = `${restaurant.name} Restaurant`;
   image.srcset = `${imageList.small} 350w, ${imageList.medium} 500w, ${imageList.large} 800w`;
   image.sizes = `(min-width: 800px) 30vw, (min-width: 500px) and (max-width: 699px) 20vw, 10vw`;
 

@@ -165,8 +165,8 @@ createRestaurantHTML = (restaurant) => {
   image.src = imageList.small;
   image.srcset = `${imageList.small} 350w, ${imageList.medium} 500w`;
   image.sizes = `(min-width: 500px) 20vw, 10vw`;
-  image.alt = restaurant.name;
-  image.title = restaurant.name;
+  image.alt = `${restaurant.name} Restaurant`;
+  image.title = `${restaurant.name} Restaurant`;
   li.append(image);
 
   const name = document.createElement('h1');
