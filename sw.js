@@ -22,6 +22,7 @@ self.addEventListener('install', event => {
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
                 'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',
+                'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png',
                 'https://unpkg.com/leaflet@1.3.1/dist/images/marker-shadow.png'
             ]);
         })
@@ -42,8 +43,13 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
     if (event.request.destination !== 'image') {
+
         event.respondWith(
             caches.open(staticCacheName).then(cache => {
+                const url = event.request.url.split('?')[0];
+                if (url.includes('restaurant')) {
+                    return cache.match(url);
+                }
                 return cache.match(event.request).then(cacheResponse => {
                     return cacheResponse || fetch(event.request).then(networkResponse => {
                         return caches.open(imagesCacheName).then(cache => {
@@ -58,8 +64,9 @@ self.addEventListener('fetch', event => {
     else {
         event.respondWith(
             caches.open(imagesCacheName).then(cache => {
-                return cache.match(event.request).then(cacheResponse => {
+                return cache.match(event.request.url).then(cacheResponse => {
                     return cacheResponse || fetch(event.request).then(networkResponse => {
+                        console.log('returning from network', event.request);
                         return caches.open(imagesCacheName).then(cache => {
                             cache.put(event.request, networkResponse.clone());
                             return networkResponse;
