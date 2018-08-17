@@ -67,6 +67,10 @@ nav h1 a {
   letter-spacing: 10px;
   text-transform: uppercase;
 }
+nav[aria-label="Breadcrumb"] {
+  padding: 0;
+  text-align: left;
+}
 #breadcrumb {
     padding: 12px 15px;
     list-style: none;

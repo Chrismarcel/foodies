@@ -25,11 +25,14 @@
       </h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb">
-      <li>
-        <a href="./">Home</a>
-      </li>
-    </ul>
+    <!-- Implement semantic breadcrumb -->
+    <nav aria-label="Breadcrumb">
+      <ol id="breadcrumb">
+        <li>
+          <a href="./">Home</a>
+        </li>
+      </ol>
+    </nav>
     <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
@@ -39,7 +42,7 @@
   <main id="maincontent" class="reviews--main">
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
+      <h2 id="restaurant-name"></h2>
       <p id="restaurant-cuisine"></p>
       <img id="restaurant-img">
       <!-- Beginning map -->
