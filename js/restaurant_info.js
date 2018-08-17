@@ -153,7 +153,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
+  const name = document.createElement('h3');
+  name.classList.add('reviewer-name');
   name.innerHTML = review.name;
   li.appendChild(name);
 
@@ -163,6 +164,14 @@ createReviewHTML = (review) => {
 
   // Loop through the ratings and display stars instead of text ratings
   const ratings = document.createElement('div');
+  ratings.tabIndex = 0;
+  ratings.setAttribute('aria-describedby', 'restaurant-ratings');
+
+  const ratingARIA = document.createElement('span');
+  ratingARIA.classList.add('sr-only');
+  ratingARIA.setAttribute('id', 'restaurant-ratings');
+  ratingARIA.textContent = `Review - ${review.rating} over 5 stars`;
+  ratings.appendChild(ratingARIA);
 
   for (let i = 1; i <= 5; i++) {
     const rating = document.createElement('span');

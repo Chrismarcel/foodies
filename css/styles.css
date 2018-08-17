@@ -292,12 +292,12 @@ nav[aria-label="Breadcrumb"] {
   margin: 5px 0 10px;
   font-size: 1rem;
 }
-#reviews-list li p:first-child {
+#reviews-list li .reviewer-name {
   font-size: 1.3rem;
   font-weight: 400;
   display: inline;
 }
-#reviews-list li p:nth-of-type(2n) {
+#reviews-list li p:first-of-type {
   float: right;
   margin-top: 5px;
   color: #666;
@@ -313,6 +313,10 @@ nav[aria-label="Breadcrumb"] {
 .rating-stars {
   font-size: 1.35rem;
   color: #8c6826;
+}
+.sr-only {
+  position: absolute;
+  left: -5000px;
 }
 
 /* ====================== Media Queries and Break Points ====================== */
