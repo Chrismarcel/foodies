@@ -169,10 +169,10 @@ createRestaurantHTML = (restaurant) => {
   image.title = `${restaurant.name} Restaurant`;
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
-
+  
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);

@@ -165,7 +165,7 @@ nav h1 a {
   min-height: 248px;
   min-width: 100%;
 }
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: #fff;
   font-family: "Lato", sans-serif;
   font-size: 1rem;
@@ -368,11 +368,12 @@ nav h1 a {
     width: 40%;
   }
   #restaurant-img {
-    width: 95%;
     display: block;
+    width: 95%;
   }
   #restaurant-details--card {
-    width: 92%;
+    padding: 10px 10px;
+    width: 91%;
   }
   #breadcrumb {
     padding: 12px 30px;
