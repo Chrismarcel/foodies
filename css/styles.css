@@ -36,7 +36,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 	display: block;
 }
 #maincontent {
-  background-color: #f7f7f7;
+  background-color: #f1f1f1;
   min-height: 100%;
 }
 #footer {
@@ -142,7 +142,7 @@ nav[aria-label="Breadcrumb"] {
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
-  background-color: #f7f7f7;
+  background-color: #f1f1f1;
   list-style: outside none none;
   margin: 0;
   padding: 15px 12px 30px 12px;
