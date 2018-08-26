@@ -2,34 +2,56 @@
  * Common database helper functions.
  */
 class DBHelper {
-
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    // return `http://localhost:${port}/data/restaurants.json`;
-    return `./data/restaurants.json`;
+    const port = 1337; // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
+    // return `./data/restaurants.json`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    const dbPromise = idb.open("foodies", 1, upgradeDB => {
+      upgradeDB.createObjectStore("foodies-store", { keyPath: "id" });
+    });
+
+    if (!navigator.serviceWorker.controller) {
+      console.log("Loaded from network");
+      fetch(DBHelper.DATABASE_URL)
+        .then(response => response.json())
+        .then(restaurants => {
+          restaurants.map(restaurant => {
+            dbPromise.then(dbObj => {
+              const tx = dbObj.transaction("foodies-store", "readwrite");
+              const foodiesStore = tx.objectStore("foodies-store");
+
+              foodiesStore.put(restaurant);
+            });
+          });
+          callback(null, restaurants);
+        })
+        .catch(error => {
+          // Oops!. Got an error from server.
+          callback(error, null);
+        });
+    } else {
+      console.log("Loaded from IDB");
+      dbPromise
+        .then(dbObj => {
+          return dbObj
+            .transaction("foodies-store")
+            .objectStore("foodies-store")
+            .getAll();
+        })
+        .then(restaurants => {
+          callback(null, restaurants);
+        });
+    }
   }
 
   /**
@@ -42,10 +64,12 @@ class DBHelper {
         callback(error, null);
       } else {
         const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
+        if (restaurant) {
+          // Got the restaurant
           callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
+        } else {
+          // Restaurant does not exist in the database
+          callback("Restaurant does not exist", null);
         }
       }
     });
@@ -86,17 +110,23 @@ class DBHelper {
   /**
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
    */
-  static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
+  static fetchRestaurantByCuisineAndNeighborhood(
+    cuisine,
+    neighborhood,
+    callback
+  ) {
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
-        let results = restaurants
-        if (cuisine != 'all') { // filter by cuisine
+        let results = restaurants;
+        if (cuisine != "all") {
+          // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
-        if (neighborhood != 'all') { // filter by neighborhood
+        if (neighborhood != "all") {
+          // filter by neighborhood
           results = results.filter(r => r.neighborhood == neighborhood);
         }
         callback(null, results);
@@ -114,9 +144,13 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const neighborhoods = restaurants.map(
+          (v, i) => restaurants[i].neighborhood
+        );
         // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+        const uniqueNeighborhoods = neighborhoods.filter(
+          (v, i) => neighborhoods.indexOf(v) == i
+        );
         callback(null, uniqueNeighborhoods);
       }
     });
@@ -132,9 +166,11 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all cuisines from all restaurants
-        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
         // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
+        const uniqueCuisines = cuisines.filter(
+          (v, i) => cuisines.indexOf(v) == i
+        );
         callback(null, uniqueCuisines);
       }
     });
@@ -144,33 +180,37 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}`);
+    return `./restaurant.html?id=${restaurant.id}`;
   }
 
   /**
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    const imagePath = `./img/${restaurant.photograph.substr(0, 1)}`;
+    const imageID = restaurant.photograph
+      ? restaurant.photograph.substr(0, 1)
+      : 10;
+    const imagePath = `./img/${imageID}`;
     return {
       small: `${imagePath}-small.jpg`,
       medium: `${imagePath}-medium.jpg`,
       large: `${imagePath}-large.jpg`
     };
-    //return (`./img/${restaurant.photograph}`);
   }
 
   /**
    * Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, map) {
-    // https://leafletjs.com/reference-1.3.0.html#marker  
-    const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
+    // https://leafletjs.com/reference-1.3.0.html#marker
+    const marker = new L.marker(
+      [restaurant.latlng.lat, restaurant.latlng.lng],
       {
         title: restaurant.name,
         alt: restaurant.name,
         url: DBHelper.urlForRestaurant(restaurant)
-      })
+      }
+    );
     marker.addTo(newMap);
     return marker;
   }
@@ -190,11 +230,54 @@ class DBHelper {
    */
   static registerServiceWorker() {
     if (!navigator.serviceWorker) return;
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => {
-        console.log("Service Worker installed successfully");
-      });
+
+    navigator.serviceWorker.register("./sw.js").then(reg => {
+      console.log("Service Worker installed successfully");
+      // if (reg.installing) {
+      //   DBHelper.IDBOperations("installing");
+      //   reg.installing.addEventListener("statechange", function() {
+      //     if (this.state === "installed") {
+      //       DBHelper.IDBOperations("active");
+      //     }
+      //   });
+      // } else if (reg.active.state === "activated" || reg.waiting) {
+      //   DBHelper.IDBOperations("active");
+      // }
+    });
   }
 
-}
+  // static IDBOperations(serviceWorkerState) {
+  //   const dbPromise = idb.open("foodies", 1, upgradeDB => {
+  //     upgradeDB.createObjectStore("foodies-store", { keyPath: "id" });
+  //   });
 
+  //   if (serviceWorkerState === "installing") {
+  //     fetch(DBHelper.DATABASE_URL)
+  //       .then(response => {
+  //         return response.json();
+  //       })
+  //       .then(restaurants => {
+  //         restaurants.map(restaurant => {
+  //           dbPromise.then(dbObj => {
+  //             const tx = dbObj.transaction("foodies-store", "readwrite");
+  //             const foodiesStore = tx.objectStore("foodies-store");
+
+  //             foodiesStore.put(restaurant);
+  //           });
+  //         });
+  //       });
+  //     return "installing";
+  //   } else if (serviceWorkerState === "active") {
+  //     dbPromise
+  //       .then(dbObj => {
+  //         return dbObj
+  //           .transaction("foodies-store")
+  //           .objectStore("foodies-store")
+  //           .getAll();
+  //       })
+  //       .then(data => {
+  //         return data;
+  //       });
+  //   }
+  // }
+}
