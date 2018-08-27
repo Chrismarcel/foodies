@@ -340,6 +340,11 @@ nav[aria-label="Breadcrumb"] {
   left: -5000px;
 }
 
+.leaflet-container a {
+  color: #333;
+  text-decoration: underline;
+}
+
 /* ====================== Media Queries and Break Points ====================== */
 @media (min-width: 365px) and (max-width: 499px) {
   #restaurants-list li {
