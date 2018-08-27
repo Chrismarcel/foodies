@@ -21,7 +21,6 @@ class DBHelper {
     });
 
     if (!navigator.serviceWorker.controller) {
-      console.log("Loaded from network");
       fetch(DBHelper.DATABASE_URL)
         .then(response => response.json())
         .then(restaurants => {
@@ -40,7 +39,6 @@ class DBHelper {
           callback(error, null);
         });
     } else {
-      console.log("Loaded from IDB");
       dbPromise
         .then(dbObj => {
           return dbObj

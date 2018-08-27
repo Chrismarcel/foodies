@@ -2,6 +2,13 @@ let restaurant;
 var newMap;
 
 /**
+ * Register Service Worker script
+ */
+if (!navigator.serviceWorker.controller) {
+  DBHelper.registerServiceWorker();
+}
+
+/**
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -216,8 +223,3 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-
-/**
- * Register Service Worker script
- */
-DBHelper.registerServiceWorker();

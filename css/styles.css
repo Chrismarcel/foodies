@@ -1,39 +1,60 @@
 @charset "utf-8";
 /* CSS Document */
 
-body,td,th,p{
-	font-size: 10pt;
-	color: #333;
-	line-height: 1.5;
+body,
+td,
+th,
+p {
+  font-size: 10pt;
+  color: #333;
+  line-height: 1.5;
 }
 body {
-	background-color: #fdfdfd;
-	margin: 0;
-  position:relative;
+  background-color: #fdfdfd;
+  margin: 0;
+  position: relative;
   font-family: "Lato";
 }
-ul, li {
-	font-family: inherit;
-	font-size: 10pt;
-	color: #333;
+ul,
+li {
+  font-family: inherit;
+  font-size: 10pt;
+  color: #333;
 }
 a {
-	color: orange;
-	text-decoration: none;
+  color: orange;
+  text-decoration: none;
 }
-a:hover, a:focus {
-	color: #3397db;
-	text-decoration: none;
+a:hover,
+a:focus {
+  color: #3397db;
+  text-decoration: none;
 }
-a img{
-	border: none 0px #fff;
+a img {
+  border: none 0px #fff;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: inherit;
   margin: 0 0 20px;
 }
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 #maincontent {
   background-color: #f1f1f1;
@@ -42,7 +63,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #footer {
   background-color: #252831;
   color: #fff;
-  font-size: 8pt;
+  font-size: 16px;
   letter-spacing: 1px;
   padding: 25px;
   text-align: center;
@@ -53,7 +74,7 @@ nav {
   width: 100%;
   height: auto;
   background-color: #252831;
-  text-align:center;
+  text-align: center;
   padding: 1rem 0;
   z-index: 1000;
 }
@@ -62,7 +83,7 @@ nav h1 {
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 25px;
   font-weight: 600;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -72,37 +93,37 @@ nav[aria-label="Breadcrumb"] {
   text-align: left;
 }
 #breadcrumb {
-    padding: 12px 15px;
-    list-style: none;
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-    font-size: 17px;
-    margin: 0;
+  padding: 12px 15px;
+  list-style: none;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  font-size: 17px;
+  margin: 0;
 }
 
 /* Display list items side by side */
 #breadcrumb li {
-    display: inline;
-    font-size: 16px;
+  display: inline;
+  font-size: 16px;
 }
 
 /* Add a slash symbol (/) before/behind each list item */
-#breadcrumb li+li:before {
-    padding: 8px;
-    color: black;
-    content: "/\00a0";
+#breadcrumb li + li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
 }
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-    color: #0275d8;
-    text-decoration: none;
+  color: #0275d8;
+  text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 #breadcrumb li a:hover {
-    color: #01447e;
-    text-decoration: underline;
+  color: #01447e;
+  text-decoration: underline;
 }
 /* ====================== Map ====================== */
 #map {
@@ -151,7 +172,7 @@ nav[aria-label="Breadcrumb"] {
 #restaurants-list li {
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0 1px 0 rgba(0,0,0,.1);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
   font-family: "Lato", sans-serif;
   margin: 0 auto;
   margin-bottom: 15px;
@@ -180,7 +201,7 @@ nav[aria-label="Breadcrumb"] {
   text-transform: uppercase;
   position: absolute;
   top: 180px;
-  background: rgba(51, 51, 51, .8);
+  background: rgba(51, 51, 51, 0.8);
   padding: 15px 20px;
   width: 100%;
   display: block;
@@ -204,7 +225,7 @@ nav[aria-label="Breadcrumb"] {
   text-decoration: none;
   text-transform: uppercase;
   border-radius: 5px;
-  box-shadow: 3px 3px 10px 0 rgba(46, 61, 73, .2);
+  box-shadow: 3px 3px 10px 0 rgba(46, 61, 73, 0.2);
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -240,7 +261,7 @@ nav[aria-label="Breadcrumb"] {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 100%;
+  width: 100%;
 }
 #restaurant-address {
   font-size: 1rem;
@@ -249,7 +270,7 @@ nav[aria-label="Breadcrumb"] {
 #restaurant-details--card {
   background: #fff;
   border-radius: 5px;
-  box-shadow: 0 1px 0 rgba(0,0,0,.1);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
   margin: 15px 0;
   padding: 10px 25px;
 }
@@ -260,7 +281,7 @@ nav[aria-label="Breadcrumb"] {
   display: inline-block;
   font-size: 1rem;
   font-weight: 600;
-  margin: 10px 0 15px ;
+  margin: 10px 0 15px;
   padding: 2px 20px;
   text-align: left;
 }
@@ -280,7 +301,7 @@ nav[aria-label="Breadcrumb"] {
 #reviews-list li {
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0 1px 0 rgba(0,0,0,.1);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
   display: block;
   list-style-type: none;
   margin-bottom: 15px;
@@ -402,10 +423,10 @@ nav[aria-label="Breadcrumb"] {
     padding-left: 10px;
     width: 52%;
   }
-  #reviews-container h2 { 
+  #reviews-container h2 {
     margin-left: 10px;
   }
-  .inside #map-container { 
+  .inside #map-container {
     right: 30px;
   }
   #breadcrumb {
@@ -419,7 +440,8 @@ nav[aria-label="Breadcrumb"] {
   .filter-options select {
     flex-basis: 490px;
   }
-  #restaurant-container, .inside #reviews-container {
+  #restaurant-container,
+  .inside #reviews-container {
     padding-left: 60px;
     width: 49%;
   }
@@ -430,10 +452,10 @@ nav[aria-label="Breadcrumb"] {
   #breadcrumb {
     padding: 12px 60px;
   }
-  #reviews-container h2 { 
+  #reviews-container h2 {
     margin: 0;
   }
-  .inside #map-container { 
+  .inside #map-container {
     right: 60px;
   }
 }

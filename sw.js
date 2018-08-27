@@ -14,7 +14,6 @@ self.addEventListener("install", event => {
         "./js/main.js",
         "./js/idb.js",
         "./js/restaurant_info.js",
-        "http://localhost:1337/restaurants",
         "https://fonts.googleapis.com/css?family=Lato",
         "https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXiWtFCc.woff2",
         "https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXg.woff2",
@@ -56,7 +55,7 @@ self.addEventListener("fetch", event => {
         return cache.match(event.request).then(cacheResponse => {
           return (
             cacheResponse ||
-            fetch(event.request).then(networkResponse => {
+            fetch(event.request, { cache: "default" }).then(networkResponse => {
               return caches.open(imagesCacheName).then(cache => {
                 cache.put(event.request, networkResponse.clone());
                 return networkResponse;
@@ -72,7 +71,7 @@ self.addEventListener("fetch", event => {
         return cache.match(event.request.url).then(cacheResponse => {
           return (
             cacheResponse ||
-            fetch(event.request).then(networkResponse => {
+            fetch(event.request, { cache: "default" }).then(networkResponse => {
               return caches.open(imagesCacheName).then(cache => {
                 cache.put(event.request, networkResponse.clone());
                 return networkResponse;
