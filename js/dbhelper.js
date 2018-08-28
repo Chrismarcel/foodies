@@ -7,7 +7,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 1337; // Change this to your server port
+    // const port = 1337; // Change this to your server port
     // return `http://localhost:${port}/restaurants`;
     return `./data/restaurants.json`;
   }
@@ -24,7 +24,9 @@ class DBHelper {
       fetch(DBHelper.DATABASE_URL)
         .then(response => response.json())
         .then(restaurants => {
-          restaurants.map(restaurant => {
+          const objKey = Object.keys(restaurants)[0];
+          restaurants[objKey].map(restaurant => {
+            // restaurants.map(restaurant => {
             dbPromise.then(dbObj => {
               const tx = dbObj.transaction("foodies-store", "readwrite");
               const foodiesStore = tx.objectStore("foodies-store");
@@ -32,7 +34,7 @@ class DBHelper {
               foodiesStore.put(restaurant);
             });
           });
-          callback(null, restaurants);
+          callback(null, restaurants[objKey]);
         })
         .catch(error => {
           // Oops!. Got an error from server.
