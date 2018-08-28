@@ -231,16 +231,6 @@ class DBHelper {
 
     navigator.serviceWorker.register("./sw.js").then(reg => {
       console.log("Service Worker installed successfully");
-      // if (reg.installing) {
-      //   DBHelper.IDBOperations("installing");
-      //   reg.installing.addEventListener("statechange", function() {
-      //     if (this.state === "installed") {
-      //       DBHelper.IDBOperations("active");
-      //     }
-      //   });
-      // } else if (reg.active.state === "activated" || reg.waiting) {
-      //   DBHelper.IDBOperations("active");
-      // }
     });
   }
 }
