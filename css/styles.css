@@ -340,7 +340,7 @@ nav[aria-label="Breadcrumb"] {
   left: -5000px;
 }
 
-.leaflet-container a {
+.leaflet-bottom > .leaflet-control a {
   color: #333;
   text-decoration: underline;
 }

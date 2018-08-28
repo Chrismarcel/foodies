@@ -192,7 +192,7 @@ class DBHelper {
     return {
       small: `${imagePath}-small.jpg`,
       medium: `${imagePath}-medium.jpg`,
-      large: `${imagePath}-large.jpg`
+      large: `${imagePath}.jpg`
     };
   }
 
@@ -243,39 +243,4 @@ class DBHelper {
       // }
     });
   }
-
-  // static IDBOperations(serviceWorkerState) {
-  //   const dbPromise = idb.open("foodies", 1, upgradeDB => {
-  //     upgradeDB.createObjectStore("foodies-store", { keyPath: "id" });
-  //   });
-
-  //   if (serviceWorkerState === "installing") {
-  //     fetch(DBHelper.DATABASE_URL)
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(restaurants => {
-  //         restaurants.map(restaurant => {
-  //           dbPromise.then(dbObj => {
-  //             const tx = dbObj.transaction("foodies-store", "readwrite");
-  //             const foodiesStore = tx.objectStore("foodies-store");
-
-  //             foodiesStore.put(restaurant);
-  //           });
-  //         });
-  //       });
-  //     return "installing";
-  //   } else if (serviceWorkerState === "active") {
-  //     dbPromise
-  //       .then(dbObj => {
-  //         return dbObj
-  //           .transaction("foodies-store")
-  //           .objectStore("foodies-store")
-  //           .getAll();
-  //       })
-  //       .then(data => {
-  //         return data;
-  //       });
-  //   }
-  // }
 }
