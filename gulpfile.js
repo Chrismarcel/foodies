@@ -10,14 +10,6 @@ gulp.task("compressImg", () =>
     .pipe(gulp.dest("./img/"))
 );
 
-(async () => {
-  await imagemin(["images/*.jpg"], "build/images", {
-    use: [imageminMozjpeg(80)]
-  });
-
-  console.log("Images optimized");
-})();
-
 gulp.task("resizeImages", function() {
   gulp
     .src("./img/*.jpg")

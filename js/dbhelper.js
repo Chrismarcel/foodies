@@ -7,9 +7,13 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    // const port = 1337; // Change this to your server port
-    // return `http://localhost:${port}/restaurants`;
-    return `./data/restaurants.json`;
+    const host = "http://localhost:1337"; // Change this to your server port
+    const endpoints = {
+      restaurants: `${host}/restaurants`,
+      reviews: `${host}/reviews`
+    };
+    return endpoints;
+    // return `./data/restaurants.json`;
   }
 
   /**
@@ -21,12 +25,13 @@ class DBHelper {
     });
 
     if (!navigator.serviceWorker.controller) {
-      fetch(DBHelper.DATABASE_URL)
+      const { restaurants } = DBHelper.DATABASE_URL;
+      fetch(restaurants)
         .then(response => response.json())
-        .then(restaurants => {
-          const objKey = Object.keys(restaurants)[0];
-          restaurants[objKey].map(restaurant => {
-            // restaurants.map(restaurant => {
+        .then(allRestaurants => {
+          // const objKey = Object.keys(restaurants)[0];
+          // restaurants[objKey].map(restaurant => {
+          allRestaurants.map(restaurant => {
             dbPromise.then(dbObj => {
               const tx = dbObj.transaction("foodies-store", "readwrite");
               const foodiesStore = tx.objectStore("foodies-store");
@@ -34,7 +39,8 @@ class DBHelper {
               foodiesStore.put(restaurant);
             });
           });
-          callback(null, restaurants[objKey]);
+          // callback(null, restaurants[objKey]);
+          callback(null, allRestaurants);
         })
         .catch(error => {
           // Oops!. Got an error from server.
@@ -48,8 +54,8 @@ class DBHelper {
             .objectStore("foodies-store")
             .getAll();
         })
-        .then(restaurants => {
-          callback(null, restaurants);
+        .then(allRestaurants => {
+          callback(null, allRestaurants);
         });
     }
   }
@@ -187,10 +193,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    const imageID = restaurant.photograph
-      ? restaurant.photograph.substr(0, 1)
-      : 10;
-    const imagePath = `./img/${imageID}`;
+    const imagePath = `./img/${restaurant.id}`;
     return {
       small: `${imagePath}-small.jpg`,
       medium: `${imagePath}-medium.jpg`,
