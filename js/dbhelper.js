@@ -9,8 +9,8 @@ class DBHelper {
   static get DATABASE_URL() {
     const host = "http://localhost:1337"; // Change this to your server port
     const endpoints = {
-      restaurants: `${host}/restaurants`,
-      reviews: `${host}/reviews`
+      restaurantsEndpoint: `${host}/restaurants`,
+      reviewsEndpoint: `${host}/reviews`
     };
     return endpoints;
     // return `./data/restaurants.json`;
@@ -25,8 +25,8 @@ class DBHelper {
     });
 
     if (!navigator.serviceWorker.controller) {
-      const { restaurants } = DBHelper.DATABASE_URL;
-      fetch(restaurants)
+      const { restaurantsEndpoint } = DBHelper.DATABASE_URL;
+      fetch(restaurantsEndpoint)
         .then(response => response.json())
         .then(allRestaurants => {
           // const objKey = Object.keys(restaurants)[0];

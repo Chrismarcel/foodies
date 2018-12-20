@@ -15,6 +15,20 @@ body {
   position: relative;
   font-family: "Lato";
 }
+.form-control {
+  font-family: "Lato";
+  padding: 13px;
+  font-size: 16px;
+  background: #ffffff;
+  border: 1px solid #434752;
+  border-radius: 4px;
+  display: block;
+  margin-bottom: 10px;
+}
+textarea.review-comment,
+input.name {
+  width: 69%;
+}
 ul,
 li {
   font-family: inherit;
@@ -110,7 +124,7 @@ nav[aria-label="Breadcrumb"] {
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li + li:before {
   padding: 8px;
-  color: black;
+  color: #333333;
   content: "/\00a0";
 }
 
@@ -215,17 +229,30 @@ nav[aria-label="Breadcrumb"] {
   font-weight: 600;
 }
 #restaurants-list li a {
+  margin: 20px 20px;
+}
+.btn {
   background-color: #434752;
   color: #fff;
   display: block;
   font-size: 1rem;
-  margin: 20px 20px;
-  padding: 10px 30px;
+  padding: 3px 30px;
+  line-height: 40px;
   text-align: center;
+  height: 40px;
   text-decoration: none;
   text-transform: uppercase;
-  border-radius: 5px;
+  border-radius: 4px;
   box-shadow: 3px 3px 10px 0 rgba(46, 61, 73, 0.2);
+  font-family: "Lato";
+  border: none;
+  cursor: pointer;
+}
+
+form .btn,
+form select {
+  height: 46px;
+  width: 40%;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -394,12 +421,15 @@ nav[aria-label="Breadcrumb"] {
     flex-wrap: wrap;
     justify-content: space-between;
   }
-  .inside #map-container {
+  #sidebar {
     position: fixed;
     top: 112px;
     bottom: 0;
-    height: 70vh;
     width: 40%;
+  }
+  .inside #map-container {
+    height: 25vh;
+    margin-bottom: 25px;
   }
   #restaurant-img {
     display: block;
@@ -460,7 +490,7 @@ nav[aria-label="Breadcrumb"] {
   #reviews-container h2 {
     margin: 0;
   }
-  .inside #map-container {
+  #sidebar {
     right: 60px;
   }
 }

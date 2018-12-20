@@ -45,6 +45,7 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+  if (event.request.method === "POST") return;
   if (event.request.destination !== "image") {
     event.respondWith(
       caches.open(staticCacheName).then(cache => {

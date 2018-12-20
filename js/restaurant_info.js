@@ -112,6 +112,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   } 800w`;
   image.sizes = `(min-width: 800px) 30vw, (min-width: 500px) and (max-width: 699px) 20vw, 10vw`;
 
+  const restaurantId = Number(getParameterByName("id"));
   const cuisine = document.getElementById("restaurant-cuisine");
   cuisine.innerHTML = restaurant.cuisine_type;
 
@@ -120,15 +121,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  const { reviews } = DBHelper.DATABASE_URL;
-  fetch(reviews)
+  const { reviewsEndpoint } = DBHelper.DATABASE_URL;
+  fetch(`${reviewsEndpoint}/?restaurant_id=${restaurantId}`)
     .then(response => response.json())
     .then(allReviews => {
-      const restaurantId = Number(getParameterByName("id"));
-      const reviewsByRestaurantId = allReviews.filter(
-        reviewObj => reviewObj.restaurant_id === restaurantId
-      );
-      fillReviewsHTML(reviewsByRestaurantId);
+      fillReviewsHTML(allReviews);
     });
 };
 
@@ -244,7 +241,7 @@ getParameterByName = (name, url) => {
 /**
  * Format review date
  */
-formatDate = timestamp => {
+const formatDate = timestamp => {
   const date = new Date(timestamp);
   const monthNames = [
     "January",
@@ -265,3 +262,31 @@ formatDate = timestamp => {
   const day = date.getDay();
   return `${month} ${day}, ${year}`;
 };
+
+const reviewForm = document.querySelector(".review-form");
+
+reviewForm.addEventListener("submit", function(evt) {
+  evt.preventDefault();
+  const reviewDate = new Date().getTime();
+  const name = document.querySelector(".name").value;
+  const comments = document.querySelector(".comment").value;
+  const restaurantId = Number(getParameterByName("id"));
+  const rating = document.querySelector(".rating").value;
+  const review = {
+    comments,
+    name,
+    rating,
+    restaurant_id: restaurantId,
+    createdAt: reviewDate,
+    updatedAt: reviewDate
+  };
+
+  const { reviewsEndpoint } = DBHelper.DATABASE_URL;
+  fetch(`${reviewsEndpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(review.reverse())
+  }).then(response => console.log(response));
+});
