@@ -29,17 +29,14 @@ class DBHelper {
       fetch(restaurantsEndpoint)
         .then(response => response.json())
         .then(allRestaurants => {
-          // const objKey = Object.keys(restaurants)[0];
-          // restaurants[objKey].map(restaurant => {
           allRestaurants.map(restaurant => {
             dbPromise.then(dbObj => {
               const tx = dbObj.transaction("foodies-store", "readwrite");
               const foodiesStore = tx.objectStore("foodies-store");
-
+              console.log(restaurant);
               foodiesStore.put(restaurant);
             });
           });
-          // callback(null, restaurants[objKey]);
           callback(null, allRestaurants);
         })
         .catch(error => {

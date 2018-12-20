@@ -9,6 +9,9 @@ p {
   color: #333;
   line-height: 1.5;
 }
+button {
+  cursor: pointer;
+}
 body {
   background-color: #fdfdfd;
   margin: 0;
@@ -246,7 +249,11 @@ nav[aria-label="Breadcrumb"] {
   box-shadow: 3px 3px 10px 0 rgba(46, 61, 73, 0.2);
   font-family: "Lato";
   border: none;
-  cursor: pointer;
+  position: relative;
+}
+
+.btn:active {
+  top: 2px;
 }
 
 form .btn,
@@ -273,6 +280,17 @@ form select {
   background-color: #ccc;
   height: 100%;
   width: 100%;
+}
+#favorite {
+  position: absolute;
+  right: 43px;
+  top: 145px;
+}
+#favorite button {
+  height: 46px;
+}
+#favorite button span {
+  font-size: 22px;
 }
 .inside #footer {
   bottom: 0;
@@ -313,6 +331,7 @@ form select {
   text-align: left;
 }
 #restaurant-container {
+  position: relative;
   padding: 130px 10px 0 10px;
 }
 #reviews-container h2 {
@@ -428,7 +447,7 @@ form select {
     width: 40%;
   }
   .inside #map-container {
-    height: 25vh;
+    height: 27vh;
     margin-bottom: 25px;
   }
   #restaurant-img {

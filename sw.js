@@ -45,7 +45,13 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
-  if (event.request.method === "POST") return;
+  const methods = ["POST", "PUT", "DELETE"];
+  if (
+    event.request.url.indexOf("is_favorite") ||
+    methods.includes(event.request.methods)
+  ) {
+    return;
+  }
   if (event.request.destination !== "image") {
     event.respondWith(
       caches.open(staticCacheName).then(cache => {

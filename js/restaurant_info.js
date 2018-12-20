@@ -116,6 +116,17 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const cuisine = document.getElementById("restaurant-cuisine");
   cuisine.innerHTML = restaurant.cuisine_type;
 
+  // Check if restaurant has been added to favorites
+  const { is_favorite } = restaurant;
+  const favoriteBtn = document.querySelector("#favorite .btn");
+  if (is_favorite) {
+    favoriteBtn.innerHTML = `Remove from favorites`;
+    favoriteBtn.classList.add("remove-favorite");
+  } else {
+    favoriteBtn.innerHTML = `<span>♥</span> Add to favorites`;
+    favoriteBtn.classList.add("add-favorite");
+  }
+
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
@@ -125,7 +136,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   fetch(`${reviewsEndpoint}/?restaurant_id=${restaurantId}`)
     .then(response => response.json())
     .then(allReviews => {
-      fillReviewsHTML(allReviews);
+      fillReviewsHTML(allReviews.reverse());
     });
 };
 
@@ -263,6 +274,9 @@ const formatDate = timestamp => {
   return `${month} ${day}, ${year}`;
 };
 
+/**
+ * Handle Review form event listener
+ */
 const reviewForm = document.querySelector(".review-form");
 
 reviewForm.addEventListener("submit", function(evt) {
@@ -287,6 +301,48 @@ reviewForm.addEventListener("submit", function(evt) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(review.reverse())
+    body: JSON.stringify(review)
   }).then(response => console.log(response));
+});
+
+/**
+ * Handle Favorite button event listener
+ */
+const favoriteBtn = document.querySelector("#favorite .btn");
+favoriteBtn.addEventListener("click", function() {
+  const restaurantId = Number(getParameterByName("id"));
+  const { restaurantsEndpoint } = DBHelper.DATABASE_URL;
+  const classNames = Array.from(favoriteBtn.classList);
+  let endpointQuery = false;
+
+  if (classNames.includes("add-favorite")) {
+    endpointQuery = true;
+    favoriteBtn.innerHTML = `Remove from favorites`;
+    favoriteBtn.classList.remove("add-favorite");
+    favoriteBtn.classList.add("remove-favorite");
+  } else {
+    favoriteBtn.innerHTML = `<span>♥</span> Add to favorites`;
+    favoriteBtn.classList.remove("remove-favorite");
+    favoriteBtn.classList.add("add-favorite");
+  }
+
+  const dbPromise = idb.open("foodies", 1, upgradeDB => {
+    upgradeDB.createObjectStore("foodies-store", { keyPath: "id" });
+  });
+
+  fetch(
+    `${restaurantsEndpoint}/${restaurantId}/?is_favorite=${endpointQuery}`,
+    {
+      method: "PUT"
+    }
+  )
+    .then(response => response.json())
+    .then(responseObj => {
+      dbPromise.then(dbObj => {
+        const tx = dbObj.transaction("foodies-store", "readwrite");
+        const foodiesStore = tx.objectStore("foodies-store");
+
+        foodiesStore.put(responseObj);
+      });
+    });
 });
