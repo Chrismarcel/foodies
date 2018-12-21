@@ -47,8 +47,8 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   const methods = ["POST", "PUT", "DELETE"];
   if (
-    event.request.url.indexOf("is_favorite") ||
-    methods.includes(event.request.methods)
+    event.request.url.indexOf("is_favorite") !== -1 ||
+    methods.includes(event.request.method)
   ) {
     return;
   }

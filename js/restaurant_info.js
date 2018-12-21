@@ -48,22 +48,6 @@ initMap = () => {
   });
 };
 
-/* window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
-} */
-
 /**
  * Get current restaurant from page URL.
  */
@@ -178,8 +162,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     return;
   }
   const ul = document.getElementById("reviews-list");
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+  reviews.forEach((review, index) => {
+    ul.appendChild(createReviewHTML(review, index));
   });
   container.appendChild(ul);
 };
@@ -187,7 +171,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 /**
  * Create review HTML and add it to the webpage.
  */
-createReviewHTML = review => {
+createReviewHTML = (review, index) => {
   const li = document.createElement("li");
   const name = document.createElement("h3");
   name.classList.add("reviewer-name");
@@ -200,11 +184,11 @@ createReviewHTML = review => {
   // Loop through the ratings and display stars instead of text ratings
   const ratings = document.createElement("div");
   ratings.tabIndex = 0;
-  ratings.setAttribute("aria-describedby", "restaurant-ratings");
+  ratings.setAttribute("aria-describedby", `restaurant-ratings-${index}`);
 
   const ratingARIA = document.createElement("span");
   ratingARIA.classList.add("sr-only");
-  ratingARIA.setAttribute("id", "restaurant-ratings");
+  ratingARIA.setAttribute("id", `restaurant-ratings-${index}`);
   ratingARIA.textContent = `Review - ${review.rating} over 5 stars`;
   ratings.appendChild(ratingARIA);
 
@@ -279,8 +263,8 @@ const formatDate = timestamp => {
  */
 const reviewForm = document.querySelector(".review-form");
 
-reviewForm.addEventListener("submit", function(evt) {
-  evt.preventDefault();
+reviewForm.addEventListener("submit", function(event) {
+  event.preventDefault();
   const reviewDate = new Date().getTime();
   const name = document.querySelector(".name").value;
   const comments = document.querySelector(".comment").value;
@@ -295,14 +279,11 @@ reviewForm.addEventListener("submit", function(evt) {
     updatedAt: reviewDate
   };
 
-  const { reviewsEndpoint } = DBHelper.DATABASE_URL;
-  fetch(`${reviewsEndpoint}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(review)
-  }).then(response => console.log(response));
+  if (navigator.onLine) {
+    DBHelper.handleOnlineStatus(review, true);
+  } else {
+    DBHelper.handleOfflineStatus(review, true);
+  }
 });
 
 /**
@@ -341,8 +322,9 @@ favoriteBtn.addEventListener("click", function() {
       dbPromise.then(dbObj => {
         const tx = dbObj.transaction("foodies-store", "readwrite");
         const foodiesStore = tx.objectStore("foodies-store");
-
         foodiesStore.put(responseObj);
       });
     });
 });
+
+DBHelper.checkConnectionStatus({});

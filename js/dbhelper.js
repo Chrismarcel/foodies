@@ -33,7 +33,6 @@ class DBHelper {
             dbPromise.then(dbObj => {
               const tx = dbObj.transaction("foodies-store", "readwrite");
               const foodiesStore = tx.objectStore("foodies-store");
-              console.log(restaurant);
               foodiesStore.put(restaurant);
             });
           });
@@ -214,16 +213,6 @@ class DBHelper {
     marker.addTo(newMap);
     return marker;
   }
-  /* static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  } */
 
   /**
    * Register Service Worker script
@@ -233,6 +222,88 @@ class DBHelper {
 
     navigator.serviceWorker.register("./sw.js").then(reg => {
       console.log("Service Worker installed successfully");
+    });
+  }
+
+  static postReview(formData) {
+    const { reviewsEndpoint } = DBHelper.DATABASE_URL;
+    fetch(`${reviewsEndpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    }).then(() => {
+      const dbPromise = idb.open("restaurant-reviews", 1, upgradeDB => {
+        upgradeDB.createObjectStore("reviews-store", {
+          keyPath: "createdAt"
+        });
+      });
+      dbPromise.then(dbObj => {
+        dbObj
+          .transaction("reviews-store", "readwrite")
+          .objectStore("reviews-store")
+          .clear();
+      });
+      location.reload(true);
+    });
+  }
+
+  static handleOfflineStatus(formData = {}, isSubmission) {
+    document.querySelector(".offline").classList.add("show");
+
+    if (isSubmission) {
+      const dbPromise = idb.open("restaurant-reviews", 1, upgradeDB => {
+        upgradeDB.createObjectStore("reviews-store", { keyPath: "createdAt" });
+      });
+
+      dbPromise.then(dbObj => {
+        const tx = dbObj.transaction("reviews-store", "readwrite");
+        const restaurantReviews = tx.objectStore("reviews-store");
+        restaurantReviews.put(formData);
+      });
+    }
+  }
+
+  static handleOnlineStatus(formData = {}, isSubmission) {
+    document.querySelector(".offline").classList.remove("show");
+
+    if (isSubmission) {
+      return DBHelper.postReview(formData);
+    }
+
+    const dbPromise = idb.open("restaurant-reviews", 1, upgradeDB => {
+      upgradeDB.createObjectStore("reviews-store", {
+        keyPath: "createdAt"
+      });
+    });
+
+    dbPromise
+      .then(dbObj => {
+        return dbObj
+          .transaction("reviews-store")
+          .objectStore("reviews-store")
+          .getAll();
+      })
+      .then(allReviews => {
+        allReviews.map(review => {
+          DBHelper.postReview(review);
+        });
+      });
+  }
+
+  static checkConnectionStatus(formData) {
+    window.addEventListener("offline", function() {
+      DBHelper.handleOfflineStatus(formData, false);
+    });
+
+    window.addEventListener("online", function() {
+      DBHelper.handleOnlineStatus(formData, false);
+    });
+
+    const closeBtn = document.querySelector(".offline .close");
+    closeBtn.addEventListener("click", function() {
+      document.querySelector(".offline").classList.remove("show");
     });
   }
 }

@@ -13,7 +13,7 @@ button {
   cursor: pointer;
 }
 body {
-  background-color: #fdfdfd;
+  background-color: #f1f1f1;
   margin: 0;
   position: relative;
   font-family: "Lato";
@@ -27,10 +27,6 @@ body {
   border-radius: 4px;
   display: block;
   margin-bottom: 10px;
-}
-textarea.review-comment,
-input.name {
-  width: 69%;
 }
 ul,
 li {
@@ -282,9 +278,7 @@ form select {
   width: 100%;
 }
 #favorite {
-  position: absolute;
-  right: 43px;
-  top: 145px;
+  margin-bottom: 10px;
 }
 #favorite button {
   height: 46px;
@@ -385,10 +379,40 @@ form select {
   position: absolute;
   left: -5000px;
 }
-
 .leaflet-bottom > .leaflet-control a {
   color: #333;
   text-decoration: underline;
+}
+.offline {
+  overflow: auto;
+  background: #ed254e;
+  text-align: center;
+  padding: 5px 20px;
+  width: 25%;
+  position: fixed;
+  top: 70px;
+  right: -390px;
+  z-index: 20000;
+  transition: right 0.4s ease-in-out;
+}
+.offline.show {
+  right: 60px;
+}
+.offline p {
+  display: inline-block;
+  margin-block-start: unset;
+  margin-block-end: unset;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #ffffff;
+}
+.offline .close {
+  float: right;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 30px;
 }
 
 /* ====================== Media Queries and Break Points ====================== */
@@ -486,6 +510,11 @@ form select {
   #breadcrumb {
     padding: 12px 30px;
   }
+  #favorite {
+    position: absolute;
+    right: 43px;
+    top: 145px;
+  }
 }
 @media (min-width: 1000px) {
   #restaurants-list {
@@ -511,5 +540,9 @@ form select {
   }
   #sidebar {
     right: 60px;
+  }
+  textarea.review-comment,
+  input.name {
+    width: 69%;
   }
 }

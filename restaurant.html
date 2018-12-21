@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#434752" />
     <meta name="description" content="Restaurant Review" />
+    <link rel="manifest" href="./manifest.json" />
     <!-- Normalize.css for better cross-browser consistency -->
     <link
       rel="stylesheet"
@@ -72,17 +73,25 @@
                 id="name"
                 placeholder="Enter name"
                 aria-label="Enter name"
+                aria-required="true"
+                required
               />
               <textarea
                 class="form-control comment"
                 name="comment"
                 id="comment"
-                cols="45"
                 rows="3"
                 placeholder="Enter your comment"
                 aria-label="Enter comment"
+                aria-required="true"
+                required
               ></textarea>
-              <select class="rating form-control" name="rating" id="rating">
+              <select
+                class="rating form-control"
+                name="rating"
+                id="rating"
+                aria-label="Select Rating"
+              >
                 <option value="1">1 Star</option>
                 <option value="2">2 Stars</option>
                 <option value="3">3 Stars</option>
@@ -103,6 +112,13 @@
       <!-- Beginning reviews -->
       <section id="reviews-container"><ul id="reviews-list"></ul></section>
       <!-- End reviews -->
+      <div class="offline">
+        <p>
+          Oopsie!!! Seems like you are offline, but you could always add your
+          review. Your review would be submitted when you are back online.
+        </p>
+        <button class="close">×</button>
+      </div>
     </main>
     <!-- End main -->
 
