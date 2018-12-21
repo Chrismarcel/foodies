@@ -1,6 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
 
+* {
+  box-sizing: border-box;
+}
+
 body,
 td,
 th,
@@ -27,6 +31,7 @@ body {
   border-radius: 4px;
   display: block;
   margin-bottom: 10px;
+  width: 100%;
 }
 ul,
 li {
@@ -166,7 +171,6 @@ nav[aria-label="Breadcrumb"] {
   border: 1px solid #fff;
   font-family: "Lato", sans-serif;
   font-size: 1rem;
-  height: 40px;
   letter-spacing: 0;
   margin: 10px;
   padding: 0 10px;
@@ -179,7 +183,7 @@ nav[aria-label="Breadcrumb"] {
   background-color: #f1f1f1;
   list-style: outside none none;
   margin: 0;
-  padding: 15px 12px 30px 12px;
+  padding: 15px 15px 30px 15px;
   text-align: center;
 }
 #restaurants-list li {
@@ -238,7 +242,7 @@ nav[aria-label="Breadcrumb"] {
   padding: 3px 30px;
   line-height: 40px;
   text-align: center;
-  height: 40px;
+  height: 46px;
   text-decoration: none;
   text-transform: uppercase;
   border-radius: 4px;
@@ -247,15 +251,17 @@ nav[aria-label="Breadcrumb"] {
   border: none;
   position: relative;
 }
-
 .btn:active {
   top: 2px;
 }
-
-form .btn,
-form select {
+.review-form {
+  margin-top: 15px;
+}
+.review-form .btn {
+  width: 100%;
+}
+select {
   height: 46px;
-  width: 40%;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -301,6 +307,7 @@ form select {
 }
 #restaurant-img {
   width: 100%;
+  margin-bottom: 15px;
 }
 #restaurant-address {
   font-size: 1rem;
@@ -326,9 +333,10 @@ form select {
 }
 #restaurant-container {
   position: relative;
-  padding: 130px 10px 0 10px;
+  padding: 130px 15px 0 15px;
 }
-#reviews-container h2 {
+#reviews-container h2,
+#sidebar h2 {
   color: #333;
   font-size: 1.5rem;
   font-weight: 400;
@@ -469,6 +477,7 @@ form select {
     top: 112px;
     bottom: 0;
     width: 40%;
+    right: 60px;
   }
   .inside #map-container {
     height: 27vh;
@@ -504,16 +513,12 @@ form select {
   #reviews-container h2 {
     margin-left: 10px;
   }
-  .inside #map-container {
-    right: 30px;
-  }
   #breadcrumb {
     padding: 12px 30px;
   }
   #favorite {
-    position: absolute;
-    right: 43px;
-    top: 145px;
+    position: relative;
+    display: block;
   }
 }
 @media (min-width: 1000px) {
@@ -538,11 +543,13 @@ form select {
   #reviews-container h2 {
     margin: 0;
   }
-  #sidebar {
-    right: 60px;
+  #favorite {
+    position: absolute;
+    right: 43px;
+    top: 145px;
   }
-  textarea.review-comment,
-  input.name {
+  .form-control,
+  .review-form .btn {
     width: 69%;
   }
 }
