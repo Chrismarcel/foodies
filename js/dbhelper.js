@@ -7,7 +7,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const host = "https://foodies-nd.herokuapp.com"; // Change this to your server port
+    const host = "https://foodie-nd.herokuapp.com"; // Change this to your server port
     const endpoints = {
       restaurantsEndpoint: `${host}/restaurants`,
       reviewsEndpoint: `${host}/reviews`
