@@ -7,7 +7,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const host = "http://localhost:1337"; // Change this to your server port
+    const host = "https://foodies-nd.herokuapp.com"; // Change this to your server port
     const endpoints = {
       restaurantsEndpoint: `${host}/restaurants`,
       reviewsEndpoint: `${host}/reviews`
@@ -293,16 +293,16 @@ class DBHelper {
   }
 
   static checkConnectionStatus(formData) {
-    window.addEventListener("offline", function() {
+    window.addEventListener("offline", function () {
       DBHelper.handleOfflineStatus(formData, false);
     });
 
-    window.addEventListener("online", function() {
+    window.addEventListener("online", function () {
       DBHelper.handleOnlineStatus(formData, false);
     });
 
     const closeBtn = document.querySelector(".offline .close");
-    closeBtn.addEventListener("click", function() {
+    closeBtn.addEventListener("click", function () {
       document.querySelector(".offline").classList.remove("show");
     });
   }
